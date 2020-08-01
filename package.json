@@ -1,0 +1,69 @@
+{
+  "name": "smlb",
+  "version": "0.1.0",
+  "author": "dokugo",
+  "private": true,
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-scripts build",
+    "analyze-wba": "rimraf build && react-app-rewired build",
+    "analyze-sme": "react-scripts build && source-map-explorer 'build/static/js/*.js'"
+  },
+  "babelMacros": {
+    "styledComponents": {}
+  },
+  "sideEffects": false,
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-number-format": "^4.4.1",
+    "react-redux": "^7.2.0",
+    "react-transition-group": "^4.4.1",
+    "redux": "^4.0.5",
+    "styled-components": "^5.1.1",
+    "typescript": "~3.9.6"
+  },
+  "devDependencies": {
+    "@hot-loader/react-dom": "^16.13.0",
+    "@types/node": "^14.0.22",
+    "@types/react": "^16.9.42",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-redux": "^7.1.9",
+    "@types/react-transition-group": "^4.4.0",
+    "@types/redux-logger": "^3.0.8",
+    "@types/styled-components": "^5.1.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-better-styled-components": "^1.1.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
+    "prettier": "^2.0.5",
+    "react-app-rewire-hot-loader": "^2.0.1",
+    "react-app-rewire-webpack-bundle-analyzer": "^1.1.0",
+    "react-app-rewired": "^2.1.6",
+    "react-hot-loader": "^4.12.21",
+    "react-scripts": "^3.4.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
+    "rimraf": "^3.0.2",
+    "source-map-explorer": "^2.4.2",
+    "stylelint": "^13.6.1",
+    "stylelint-a11y": "^1.2.3",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0"
+  }
+}
