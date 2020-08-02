@@ -6,6 +6,7 @@ import ButtonContainer from './containers/ButtonContainer'
 import InputContainer from './containers/InputContainer'
 import RadioContainer from './containers/RadioContainer'
 import SelectContainer from './containers/SelectContainer'
+import Table from './table/index'
 
 const Automobiles: FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -35,7 +36,7 @@ const Automobiles: FC = () => {
         </Form>
       </FormBox>
       <TableBox>
-        <Table></Table>
+        <Table />
       </TableBox>
     </>
   )
@@ -43,7 +44,7 @@ const Automobiles: FC = () => {
 
 export default Automobiles
 
-const TitleBox = styled.section`
+const TitleBox = styled.div`
   margin-top: 70px;
 `
 
@@ -54,21 +55,24 @@ const Title = styled.h2`
   margin: 0;
 `
 
-const FormBox = styled.section`
+const FormBox = styled.div`
   margin-top: 60px;
   width: 100%;
 `
 
 const Form = styled.form``
 
-const TableBox = styled.section`
-  margin-top: 40px;
-`
-
-const Table = styled.section``
-
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+`
+
+const TableBox = styled.div`
+  margin-bottom: 330px;
+  margin-top: 155px;
 `
