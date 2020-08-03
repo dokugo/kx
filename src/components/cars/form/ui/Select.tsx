@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
-import { CarStatus } from 'store/automobile/types'
+import { CarStatus } from 'store/cars/types'
 import styled from 'styled-components/macro'
 import Transition from 'utils/transition'
 
-import { selectData } from '../constants'
+import { selectData } from '../../constants'
 
 interface Props {
   data: CarStatus
@@ -15,10 +15,7 @@ const SelectComponent: FC<Props> = ({ data, updateData }) => {
 
   const select = useRef<HTMLDivElement>(null)
 
-  const handleInsideClick = (): void => {
-    select.current?.blur()
-    setIsOpen((isOpen) => !isOpen)
-  }
+  const handleInsideClick = (): void => setIsOpen((isOpen) => !isOpen)
 
   const handleOutsideClick = (event: MouseEvent): void => {
     if (select.current?.contains(event.target as Node)) return
@@ -37,20 +34,23 @@ const SelectComponent: FC<Props> = ({ data, updateData }) => {
     }
 
     if (event.key === 'ArrowDown') {
+      event.preventDefault()
+
       setIsOpen(true)
 
       const target = event.target as HTMLElement
       const nextSibling = target?.nextElementSibling as HTMLElement
       const nextSiblingChild = nextSibling?.firstElementChild as HTMLElement
-
       if (!nextSiblingChild) return
-
       nextSiblingChild.focus()
     }
   }
 
   const handleOutsideKey = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape') setIsOpen(false)
+    if (event.key === 'Escape') {
+      setIsOpen(false)
+      select.current?.focus()
+    }
   }
 
   useEffect(() => {
@@ -75,29 +75,41 @@ const SelectComponent: FC<Props> = ({ data, updateData }) => {
   }
 
   const handleDropdownKeyDown = (event: React.KeyboardEvent): void => {
-    if (event.key === 'Enter') {
-      const target = event.target as HTMLElement
-      updateData(target.dataset.value as CarStatus)
-      setIsOpen(false)
-      select.current?.focus()
-    }
+    const target = event.target as HTMLElement
 
-    if (event.key === 'ArrowDown') {
-      const target = event.target as HTMLElement
-      const nextTarget = target?.nextElementSibling as HTMLElement
+    switch (event.key) {
+      case 'Enter': {
+        updateData(target.dataset.value as CarStatus)
+        setIsOpen(false)
+        select.current?.focus()
+        break
+      }
 
-      if (!nextTarget) return
+      case 'ArrowDown': {
+        event.preventDefault()
 
-      nextTarget.focus()
-    }
+        const nextTarget = target?.nextElementSibling as HTMLElement
+        if (!nextTarget) return
+        nextTarget.focus()
+        break
+      }
 
-    if (event.key === 'ArrowUp') {
-      const target = event.target as HTMLElement
-      const previousTarget = target?.previousElementSibling as HTMLElement
+      case 'ArrowUp': {
+        event.preventDefault()
 
-      if (!previousTarget) return
+        const previousTarget = target?.previousElementSibling as HTMLElement
+        if (!previousTarget) return
+        previousTarget.focus()
+        break
+      }
 
-      previousTarget.focus()
+      case 'Tab': {
+        if (!target?.nextElementSibling) setIsOpen(false)
+        break
+      }
+
+      default:
+        return
     }
   }
 
@@ -120,7 +132,7 @@ const SelectComponent: FC<Props> = ({ data, updateData }) => {
   const isDefault = data === CarStatus.Unset ? true : false
 
   return (
-    <Container>
+    <>
       <SelectElement
         tabIndex={0}
         className="Select"
@@ -132,34 +144,32 @@ const SelectComponent: FC<Props> = ({ data, updateData }) => {
       >
         {selectData.types[data]?.text || selectData.unset}
       </SelectElement>
-      <Transition condition={isOpen}>{options}</Transition>
-    </Container>
+      <Transition condition={isOpen} wide>
+        {options}
+      </Transition>
+    </>
   )
 }
 
 export default SelectComponent
 
-const Container = styled.section`
-  position: relative;
-  width: 100%;
-`
-
 const SelectElement = styled.div<{ isOpen: boolean; isDefault: boolean }>`
   align-items: center;
-  background: ${({ theme }): string => theme.colors.white};
-  border: #dcdcdc;
-  border-bottom: ${(props): string => (props.isOpen ? '#111' : '#dcdcdc')};
+  background: ${({ theme }): string => theme.color.white};
+  border: ${({ theme }): string => theme.color.grey};
+  border-bottom: ${({ isOpen, theme }): string =>
+    isOpen ? theme.color.black : theme.color.grey};
   border-style: solid;
   border-width: 1px 1px 2px 1px;
   box-sizing: border-box;
-  color: ${(props): string => (props.isDefault ? '#999' : ' #111;')};
+  color: ${({ isDefault, theme }): string =>
+    isDefault ? theme.color.darkgrey : theme.color.black};
   cursor: pointer;
   display: flex;
   font-size: 12px;
   font-weight: 500;
   height: 40px;
   line-height: 1;
-  min-width: 306px;
   outline: 0;
   padding: 0 8px;
   transition-duration: ${({ theme }): string => theme.animation.fast};
@@ -170,7 +180,10 @@ const SelectElement = styled.div<{ isOpen: boolean; isDefault: boolean }>`
   &::after {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid ${(props): string => (props.isOpen ? '#111' : '#999')};
+    transform: ${({ isOpen }): string => (isOpen ? 'rotate(180deg)' : '')};
+    border-top: 6px solid
+      ${({ isOpen, theme }): string =>
+        isOpen ? theme.color.black : theme.color.darkgrey};
     content: '';
     display: block;
     height: 0;
@@ -182,53 +195,54 @@ const SelectElement = styled.div<{ isOpen: boolean; isDefault: boolean }>`
     width: 0;
   }
 
-  &:hover {
-    border-bottom-color: ${(props): string =>
-      props.isOpen ? '#111' : '#c4092f'};
-
-    &::after {
-      border-top-color: ${(props): string =>
-        props.isOpen ? '#111' : '#c4092f'};
-    }
+  &:focus {
+    border-bottom-color: ${({ theme }): string => theme.color.black};
   }
 
-  &:focus {
-    border-bottom-color: #111;
+  &:hover {
+    border-bottom-color: ${({ isOpen, theme }): string =>
+      isOpen ? theme.color.black : theme.color.red};
+
+    &::after {
+      border-top-color: ${({ isOpen, theme }): string =>
+        isOpen ? theme.color.black : theme.color.red};
+    }
   }
 `
 
 const DropdownElement = styled.div<{ isOpen: boolean }>`
   align-items: center;
-  background: ${({ theme }): string => theme.colors.white};
+  background: ${({ theme }): string => theme.color.white};
   border: none;
-  border-color: #dcdcdc;
+  border-color: ${({ theme }): string => theme.color.grey};
   border-style: solid;
   border-width: 0 1px;
   box-sizing: border-box;
-  color: #999;
+  color: ${({ theme }): string => theme.color.darkgrey};
   cursor: pointer;
   display: flex;
   font-size: 12px;
   font-weight: 500;
   height: 40px;
   line-height: 1;
-  min-width: 306px;
   outline: 0;
   padding: 0 8px;
-  transition-duration: ${({ theme }): string => theme.animation.fast};
-  transition-timing-function: ${({ theme }): string => theme.animation.func};
   user-select: none;
   width: 100%;
 
   &:hover {
-    color: #111;
+    color: ${({ theme }): string => theme.color.black};
   }
 
   &:focus {
-    color: #111;
+    color: ${({ theme }): string => theme.color.black};
   }
 
   &:last-of-type {
     border-bottom-width: 1px;
+  }
+
+  @media (max-width: 980px) {
+    height: 30px;
   }
 `

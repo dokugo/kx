@@ -14,5 +14,6 @@ module.exports = {
     "declaration-block-no-duplicate-properties": true,
     'property-no-vendor-prefix': null,
     'value-no-vendor-prefix': null,
+    'value-keyword-case': null
   },
 }

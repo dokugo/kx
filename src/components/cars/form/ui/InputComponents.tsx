@@ -3,13 +3,13 @@ import styled, { css } from 'styled-components/macro'
 
 const InputStyleCommon = css`
   align-items: center;
-  background: ${({ theme }): string => theme.colors.white};
+  background: ${({ theme }): string => theme.color.white};
   border: none;
-  border-color: #dcdcdc;
+  border-color: ${({ theme }): string => theme.color.grey};
   border-style: solid;
   border-width: 1px 1px 2px 1px;
   box-sizing: border-box;
-  color: #111;
+  color: ${({ theme }): string => theme.color.black};
   display: flex;
   font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -25,11 +25,15 @@ const InputStyleCommon = css`
   width: 100%;
 
   &:hover {
-    border-bottom-color: #c4092f;
+    border-bottom-color: ${({ theme }): string => theme.color.red};
   }
 
   &:focus {
-    border-bottom-color: #111;
+    border-bottom-color: ${({ theme }): string => theme.color.black};
+  }
+
+  @media (max-width: 980px) {
+    min-width: unset;
   }
 `
 

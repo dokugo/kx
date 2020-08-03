@@ -1,14 +1,14 @@
 import React, { FC } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { updateTextField } from 'store/automobile/actions'
-import { InputData, InputParams } from 'store/automobile/types'
+import { updateTextField } from 'store/cars/actions'
+import { TextFieldData, TextFieldParams } from 'store/cars/types'
 import { RootState } from 'store/rootReducer'
 import styled from 'styled-components/macro'
 
 import Input from '../ui/Input'
 
 interface ComponentProps {
-  params: InputParams
+  params: TextFieldParams
   wide?: boolean
 }
 
@@ -26,28 +26,33 @@ const InputContainer: FC<Props> = ({ params, wide, data, updateTextField }) => {
   )
 }
 
-const mapStateToProps = (
-  state: RootState
-): {
-  data: InputData['payload']
-} => ({
+const mapState = (state: RootState): { data: TextFieldData['payload'] } => ({
   data: {
-    title: state.automobile.title,
-    year: state.automobile.year,
-    price: state.automobile.price,
-    description: state.automobile.description,
+    title: state.cars.form.title,
+    year: state.cars.form.year,
+    price: state.cars.form.price,
+    description: state.cars.form.description,
   },
 })
 
-const mapDispatchToProps = { updateTextField }
+const mapDispatch = { updateTextField }
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapState, mapDispatch)
 
 type StoreProps = ConnectedProps<typeof connector>
 
 export default connector(InputContainer)
 
 const Container = styled.section<{ wide?: boolean }>`
+  margin-right: 20px;
   position: relative;
-  width: ${(props): string => (props.wide ? '100%' : 'unset')};
+  width: 100%;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  @media (max-width: 980px) {
+    min-width: 220px;
+  }
 `

@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components/macro'
 
 export const GlobalStyle = createGlobalStyle` 
   body {
-    background: ${({ theme }): string => theme.colors.white};
+    background: ${({ theme }): string => theme.color.white};
     font-family: 'Roboto', 'Open Sans', 'Segoe UI', 'Verdana', 'Calibri', 'Trebuchet MS', sans-serif;
     margin: 0;
   }
@@ -18,13 +18,13 @@ export const Container = styled.section`
 export const Header: FC = () => {
   return (
     <HeaderElement>
-      <Logo src="duck.png" />
+      <Logo src="img/duck.png" />
     </HeaderElement>
   )
 }
 
 const HeaderElement = styled.header`
-  background: #282d30;
+  background: ${({ theme }): string => theme.color.lightblack};
   display: flex;
   height: 100px;
   justify-content: center;
@@ -47,11 +47,15 @@ export const Main = styled.main`
   margin: 0 auto;
   padding: 0 10px;
   width: 980px;
+
+  @media (max-width: 980px) {
+    width: 720px;
+  }
 `
 
 const FooterElement = styled.footer`
   align-items: center;
-  background: #282d30;
+  background: ${({ theme }): string => theme.color.lightblack};
   display: flex;
   flex-direction: column;
   height: 100px;
@@ -59,7 +63,7 @@ const FooterElement = styled.footer`
 `
 
 const FooterTextItem = styled.span`
-  color: #fff;
+  color: ${({ theme }): string => theme.color.lightgrey};
   font-size: 11px;
 `
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { CarColor } from 'store/automobile/types'
+import { CarColor } from 'store/cars/types'
 import styled from 'styled-components/macro'
 
 interface Props {
@@ -64,22 +64,22 @@ const Radio = styled.input`
 
 const Label = styled.label<{ isActive: boolean; color: string }>`
   align-items: center;
+  border-radius: 50%;
   box-sizing: border-box;
-  color: ${({ theme }): string => theme.colors.black};
   cursor: pointer;
   display: flex;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1;
   margin: 0;
   position: relative;
+  transition-duration: ${({ theme }): string => theme.animation.fast};
+  transition-timing-function: ${({ theme }): string => theme.animation.func};
   user-select: none;
 
   &::before {
-    background: ${(props): string => props.color};
-    box-shadow: 0 0 0 1px
-      ${({ color }): string => (color === '#fff' ? '#e0e0e0' : 'transparent')};
+    background: ${({ color }): string => color};
     border-radius: 50%;
+    box-shadow: 0 0 0 1px
+      ${({ color, theme }): string =>
+        color === theme.color.white ? theme.color.darkwhite : 'transparent'};
     box-sizing: border-box;
     content: '';
     display: block;
@@ -93,10 +93,11 @@ const Label = styled.label<{ isActive: boolean; color: string }>`
   }
 
   &::after {
-    background: ${(props): string => props.color};
-    box-shadow: 0 0 0 4px
-      ${({ isActive }): string => (isActive ? '#c4092f' : 'transparent')};
+    background: ${({ color }): string => color};
     border-radius: 50%;
+    box-shadow: 0 0 0 4px
+      ${({ isActive, theme }): string =>
+        isActive ? theme.color.red : 'transparent'};
     box-sizing: border-box;
     content: '';
     display: block;
@@ -109,7 +110,16 @@ const Label = styled.label<{ isActive: boolean; color: string }>`
     width: 20px;
   }
 
+  &:focus {
+    box-shadow: 0 0 0 4px ${({ theme }): string => theme.color.black};
+    outline: none;
+  }
+
   &:active {
     outline: none;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 `

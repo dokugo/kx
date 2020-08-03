@@ -2,17 +2,20 @@ import 'styled-components'
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    colors: {
-      black: string
-      body: string
-      darkblue: string
+    color: {
+      green: string
       grey: string
       lightgrey: string
-      lightyellow: string
-      orange: string
-      shadow: string
-      semiwhite: string
+      darkgrey: string
+      lightblack: string
+      black: string
+      lightred: string
+      red: string
+      darkred: string
+      maroon: string
       white: string
+      semiwhite: string
+      darkwhite: string
     }
     animation: {
       fast: string

@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { setColor } from 'store/automobile/actions'
-import { CarColor } from 'store/automobile/types'
+import { setColor } from 'store/cars/actions'
+import { CarColor } from 'store/cars/types'
 import { RootState } from 'store/rootReducer'
 import styled from 'styled-components/macro'
 
-import { radioData } from '../constants'
+import { radioData } from '../../constants'
 import Radio from '../ui/Radio'
 
 const RadioContainer: FC<StoreProps> = ({ color, setColor }) => {
@@ -29,21 +29,30 @@ const RadioContainer: FC<StoreProps> = ({ color, setColor }) => {
   )
 }
 
-const mapStateToProps = (state: RootState): { color: CarColor } => ({
-  color: state.automobile.color,
+const mapState = (state: RootState): { color: CarColor } => ({
+  color: state.cars.form.color,
 })
 
-const mapDispatchToProps = { setColor }
+const mapDispatch = { setColor }
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapState, mapDispatch)
 
 type StoreProps = ConnectedProps<typeof connector>
 
 export default connector(RadioContainer)
 
 const Container = styled.section`
+  margin-right: 20px;
   position: relative;
-  width: 306px;
+  width: 100%;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  @media (max-width: 980px) {
+    min-width: 220px;
+  }
 `
 
 const RadioGroup = styled.div`
@@ -53,7 +62,7 @@ const RadioGroup = styled.div`
 `
 
 const Label = styled.label`
-  color: #999;
+  color: ${({ theme }): string => theme.color.darkgrey};
   display: flex;
   font-size: 12px;
   position: absolute;

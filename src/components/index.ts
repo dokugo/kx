@@ -1,2 +1,2 @@
-import Automobiles from './automobiles'
-export { Automobiles }
+import Cars from './cars'
+export { Cars }

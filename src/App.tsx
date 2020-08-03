@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { hot } from 'react-hot-loader/root'
 
-import { Automobiles } from './components'
+import { Cars } from './components'
 import {
   Container,
   Footer,
@@ -16,7 +16,7 @@ const App: FC = () => {
       <GlobalStyle />
       <Header />
       <Main>
-        <Automobiles />
+        <Cars />
       </Main>
       <Footer />
     </Container>

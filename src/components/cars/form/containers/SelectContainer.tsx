@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { setStatus } from 'store/automobile/actions'
-import { CarStatus } from 'store/automobile/types'
+import { setStatus } from 'store/cars/actions'
+import { CarStatus } from 'store/cars/types'
 import { RootState } from 'store/rootReducer'
 import styled from 'styled-components/macro'
 
@@ -15,20 +15,28 @@ const SelectContainer: FC<StoreProps> = ({ status, setStatus }) => {
   )
 }
 
-const mapStateToProps = (
-  state: RootState
-): {
-  status: CarStatus
-} => ({
-  status: state.automobile.status,
+const mapState = (state: RootState): { status: CarStatus } => ({
+  status: state.cars.form.status,
 })
 
-const mapDispatchToProps = { setStatus }
+const mapDispatch = { setStatus }
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapState, mapDispatch)
 
 type StoreProps = ConnectedProps<typeof connector>
 
 export default connector(SelectContainer)
 
-const Container = styled.section``
+const Container = styled.section`
+  margin-right: 20px;
+  position: relative;
+  width: 100%;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  @media (max-width: 980px) {
+    min-width: 220px;
+  }
+`

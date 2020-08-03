@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import automobileReducer from './automobile/reducer'
+import carsReducer from './cars/reducer'
 
 const rootReducer = combineReducers({
-  automobile: automobileReducer,
+  cars: carsReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
